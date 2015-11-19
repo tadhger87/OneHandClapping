@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">One Hand Clapping</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="action_search">Search</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="nav_item_home">Home</string>
+    <string name="nav_item_friends">Friends</string>
+    <string name="nav_item_notifications">Messages</string>
+    <string name="great">Great</string>
+    <string name="good">Good</string>
+    <string name="average">Average</string>
+    <string name="bad">Bad</string>
+    <string name="terrible">Terrible</string>
+    <string name="choose">Choose</string>
+    <string name="mood_text">How do you feel today?</string>
+    <string name="date_text">Todays date?</string>
+
+    <!-- navigation drawer item labels -->
+    <string-array name="nav_drawer_labels">
+        <item>@string/nav_item_home</item>
+        <item>@string/nav_item_friends</item>
+        <item>@string/nav_item_notifications</item>
+    </string-array>
+
+    <string name="title_messages">Messages</string>
+    <string name="title_friends">Friends</string>
+    <string name="title_home">Home</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="display_name">Display name</string>
+    <string name="dlg_title">Dialog title</string>
+    <string name="toast">Toast</string>
+    <string name="back">Back</string>
+    <string name="value">Value</string>
+    <string name="title_activity_dialog">DialogActivity</string>
+
+</resources>
