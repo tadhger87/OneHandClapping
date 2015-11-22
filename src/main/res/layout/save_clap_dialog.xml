@@ -14,7 +14,7 @@ android:layout_margin="5dp" >
     android:hint="item"
     android:nextFocusDown="@+id/etxt_schedule"
     android:singleLine="true" />
-
+    <!--blah blah-->
 <EditText
     android:id="@+id/etxt_schedule"
     android:layout_width="wrap_content"

@@ -4,6 +4,8 @@ package com.tadhg.onehandclapping.model;
  * Created by Tadhg on 13/11/2015.
  */
 public class ClapItem {
+
+    //duh
     private String mName;
     private int mThumbnail;
 

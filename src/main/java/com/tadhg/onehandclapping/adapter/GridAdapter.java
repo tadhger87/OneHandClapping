@@ -20,7 +20,7 @@ import java.util.List;
  * Created by Edwin on 28/02/2015.
  */
 public class GridAdapter  extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
-
+//blah
     List<ClapItem> mItems;
 
     public GridAdapter() {

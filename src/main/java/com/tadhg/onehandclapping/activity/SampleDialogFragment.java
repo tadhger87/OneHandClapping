@@ -17,6 +17,8 @@ import com.tadhg.onehandclapping.R;
 
 public class SampleDialogFragment extends DialogFragment implements
         DialogInterface.OnClickListener {
+
+    //some changes blah blah
     private View form=null;
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

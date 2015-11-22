@@ -17,7 +17,7 @@ import com.tadhg.onehandclapping.adapter.GridAdapter;
  * Created by Tadhg on 22/09/2015.
  */
 public class ClapsFragment extends Fragment {
-
+//blah
 
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;

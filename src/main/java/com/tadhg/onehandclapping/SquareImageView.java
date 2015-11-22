@@ -8,6 +8,8 @@ import android.widget.ImageView;
  * Created by Tadhg on 13/11/2015.
  */
 public class SquareImageView extends ImageView {
+
+    //blah
     public SquareImageView(Context context) {
         super(context);
     }

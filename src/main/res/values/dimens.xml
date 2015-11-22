@@ -8,7 +8,7 @@
     <dimen name="dialog_vertical_bottom">100dp</dimen>
     <dimen name="dialog_horizontal_margin">50dp</dimen>
     <dimen name="nav_drawer_width">260dp</dimen>
-
+    <!--blah blah-->
 
     <dimen name="pie_segment_label_font_size">10dp</dimen>
     <dimen name="title_font_size">20dp</dimen>

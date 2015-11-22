@@ -19,7 +19,7 @@ import com.tadhg.onehandclapping.R;
  * Created by Tadhg on 20/11/2015.
  */
 public class SaveClapDialog extends DialogFragment implements TextView.OnEditorActionListener {
-
+// blah
     private EditText mEditText;
 
     public interface SaveClapDialogListener {
