@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,7 @@ import java.io.IOException;
 /**
  * Created by Tadhg on 22/09/2015.
  */
-public class RecordFragment extends Fragment{
+public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapDialogListener {
 
     private MediaRecorder myRecorder;
     private MediaPlayer myPlayer;
@@ -118,20 +119,25 @@ public class RecordFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                save(v);
+                showSaveDialog();
             }
         });
 
         return rootView;
     }
 
-    public void save (View view){
+    private void showSaveDialog() {
+        FragmentManager fm = getFragmentManager();
+        SaveClapDialog saveClapDialog = SaveClapDialog.newInstance("Some Title");
+        saveClapDialog.show(fm, "fragment_edit_name");
+    }
+  /*  public void save (View view){
 
         Intent myIntent = new Intent(getActivity(), DialogActivity.class);
         //myIntent.putExtra("key", value); //Optional parameters
         RecordFragment.this.startActivity(myIntent);
     }
-
+*/
     public void start(View view){
         try {
             myRecorder.prepare();
@@ -227,4 +233,8 @@ public class RecordFragment extends Fragment{
     }
 
 
+    @Override
+    public void onFinishEditDialog(String inputText) {
+        Toast.makeText(getActivity(), "Hi, " + inputText, Toast.LENGTH_SHORT).show();
+    }
 }
