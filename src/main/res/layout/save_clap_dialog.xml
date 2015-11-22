@@ -1,0 +1,69 @@
+<!-- fragment_edit_name.xml -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_margin="5dp" >
+
+<EditText
+    android:id="@+id/etxt_item"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:hint="item"
+    android:nextFocusDown="@+id/etxt_schedule"
+    android:singleLine="true" />
+
+<EditText
+    android:id="@+id/etxt_schedule"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/etxt_item"
+    android:hint="dob"
+    android:nextFocusDown="@+id/etxt_translate"
+    android:singleLine="true" />
+
+<EditText
+    android:id="@+id/etxt_translate"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/etxt_schedule"
+    android:hint="salary"
+    android:singleLine="true" />
+
+<Spinner
+    android:id="@+id/spinner_cat"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/etxt_translate" />
+
+<LinearLayout
+    android:id="@+id/layout_submit"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/spinner_cat"
+    android:layout_margin="5dp"
+    android:orientation="horizontal"
+    android:weightSum="2" >
+
+    <Button
+        android:id="@+id/button_add"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="1"
+        android:enabled="true"
+        android:text="add" />
+
+    <Button
+        android:id="@+id/button_reset"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_weight="1"
+        android:text="reset" />
+</LinearLayout>
+</RelativeLayout>

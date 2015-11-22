@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.tadhg.iwozere.Welcome"
+    android:background="#fffffdfd">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Welcome to IWOZERE."
+        android:id="@+id/welcome_text"
+        android:textAlignment="center"
+        android:singleLine="false"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Use this application to leave your mark all over the world.  Click on the marker at your current location to leave a short message.  Click on any other map marker to see messages left at that location by other users.  It&apos;s that simple!"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/welcome_text"
+        android:layout_alignRight="@+id/welcome_text"
+        android:layout_alignEnd="@+id/welcome_text"
+        android:textColor="@color/colorPrimary" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Continue"
+            android:id="@+id/continue_button"
+            android:layout_gravity="bottom"
+            android:background="@color/colorPrimary"
+            android:textColor="#fff"/>
+    </LinearLayout>
+
+</RelativeLayout>

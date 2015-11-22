@@ -1,0 +1,20 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:background="@color/windowTransparent"
+    tools:context="com.tadhg.onehandclapping.DialogActivity">
+
+    <include layout="@layout/dialog_card"
+
+
+
+        />
+
+<!--
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="200dp"
+        android:text="Hi how are ya?"/>-->
+</RelativeLayout>
