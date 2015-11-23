@@ -43,5 +43,7 @@
     <string name="back">Back</string>
     <string name="value">Value</string>
     <string name="title_activity_dialog">DialogActivity</string>
-    <!--blah blah-->
+    <!-- blah blah -->
+    <string name="title_activity_test">TestActivity</string>
+
 </resources>
