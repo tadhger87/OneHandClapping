@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 
 public class DialogActivity extends Activity {
-//blahhhhh
+//blahhh
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
