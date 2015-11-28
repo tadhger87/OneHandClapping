@@ -11,6 +11,7 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,12 +29,14 @@ import com.tadhg.onehandclapping.R;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Tadhg on 22/09/2015.
  */
 public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapDialogListener {
-//blah
+//http://stackoverflow.com/questions/23194192/progress-while-recording-audio
     private MediaRecorder myRecorder;
     private MediaPlayer myPlayer;
     private String outputFile = null;
@@ -42,6 +46,9 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
     private Button stopPlayBtn;
     private TextView text;
     private Button saveButton;
+
+
+    private ProgressBar mProgress;
 
 
     protected boolean hasMicrophone() {
@@ -62,6 +69,7 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_record, container, false);
 
+        mProgress          =(ProgressBar) rootView.findViewById(R.id.progress_rec);
         text = (TextView) rootView.findViewById(R.id.text1);
         // store it to sd card
         outputFile = Environment.getExternalStorageDirectory().
@@ -72,6 +80,9 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
         myRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         myRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
         myRecorder.setOutputFile(outputFile);
+
+
+
 
         startBtn = (Button)rootView.findViewById(R.id.start);
         startBtn.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +124,7 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
             }
         });
 
-        saveButton = (Button)rootView.findViewById(R.id.save);
+        saveButton = (Button)rootView.findViewById(R.id.saveb);
         saveButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -128,8 +139,8 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
 
     private void showSaveDialog() {
         FragmentManager fm = getFragmentManager();
-        SaveClapDialog saveClapDialog = SaveClapDialog.newInstance("Some Title");
-        saveClapDialog.show(fm, "fragment_edit_name");
+        SaveClapDialog saveClapDialog = SaveClapDialog.newInstance("Save Clap");
+        saveClapDialog.show(fm, "fragment_save_clap");
     }
   /*  public void save (View view){
 
@@ -151,7 +162,9 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
             e.printStackTrace();
         }
 
-        text.setText("Recording Point: Recording");
+
+
+        text.setText("One Hand Clapping: Recording");
         startBtn.setEnabled(false);
         stopBtn.setEnabled(true);
 
@@ -169,7 +182,9 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
             playBtn.setEnabled(true);
             startBtn.setEnabled(true);
 
-            text.setText("Recording Point: Stop recording");
+
+
+            text.setText(R.string.stop_top_tv);
 
             Toast.makeText(getActivity(), "Stop recording...",
                     Toast.LENGTH_SHORT).show();
@@ -192,7 +207,7 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
             playBtn.setEnabled(false);
             stopPlayBtn.setEnabled(true);
             startBtn.setEnabled(false);
-            text.setText("Recording Point: Playing");
+            text.setText(R.string.play_top_tv);
 
             Toast.makeText(getActivity(), "Start play the recording...",
                     Toast.LENGTH_SHORT).show();
@@ -220,6 +235,11 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
             e.printStackTrace();
         }
     }
+
+
+
+
+
 
 
     @Override

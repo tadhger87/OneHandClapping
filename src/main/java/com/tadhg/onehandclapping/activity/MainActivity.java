@@ -79,15 +79,15 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         switch (position) {
             case 0:
                 fragment = new RecordFragment();
-                title = getString(R.string.title_home);
+                title = getString(R.string.title_record);
                 break;
             case 1:
                 fragment = new ClapsFragment();
-                title = getString(R.string.title_friends);
+                title = getString(R.string.title_claps);
                 break;
             case 2:
                 fragment = new MessagesFragment();
-                title = getString(R.string.title_messages);
+                title = getString(R.string.title_stuff);
                 break;
             default:
                 break;

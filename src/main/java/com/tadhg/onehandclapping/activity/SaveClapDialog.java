@@ -50,7 +50,7 @@ public class SaveClapDialog extends DialogFragment implements TextView.OnEditorA
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Get field from view
-        mEditText = (EditText) view.findViewById(R.id.etxt_item);
+        mEditText = (EditText) view.findViewById(R.id.etxt_clap_name);
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);

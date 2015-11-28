@@ -11,10 +11,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Recording Point: -"
+        android:text="@string/rec_frag_toptv"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <ImageView
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_rec"
+        android:layout_below="@+id/text1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+   <!-- <ImageView
         android:id="@+id/micImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -22,27 +29,31 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:src="@android:drawable/presence_audio_online" />
-
+-->
     <LinearLayout  android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/micImage"
+        android:layout_below="@+id/progress_rec"
         android:id="@+id/linear1"
+        android:weightSum="2"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/start"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="start" />
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="@string/start_button" />
 
         <Button
             android:id="@+id/stop"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_margin="10dp"
             android:enabled="false"
-            android:text="stop" />
+            android:layout_weight="1"
+            android:text="@string/stop_button" />
 
     </LinearLayout>
 
@@ -51,30 +62,43 @@
         android:layout_marginTop="10dp"
         android:layout_below="@+id/linear1"
         android:id="@+id/linear2"
+        android:weightSum="2"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/play"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="play" />
+            android:layout_margin="10dp"
+            android:text="@string/play_button"
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/stopPlay"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:enabled="false"
-            android:layout_marginLeft="10dp"
-            android:text="stop playing" />
+            android:layout_weight="1"
+
+            android:text="@string/stop_play_button" />
         <!--blah blah-->
+
+    </LinearLayout>
+
+
+
+
         <Button
-            android:id="@+id/save"
+            android:id="@+id/saveb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="true"
-            android:layout_marginLeft="10dp"
-            android:text="Save" />
-    </LinearLayout>
+            android:layout_below="@+id/linear2"
+            android:layout_centerInParent="true"
+            android:ems="10"
+            android:text="@string/save_button"
+            />
 
 </RelativeLayout>

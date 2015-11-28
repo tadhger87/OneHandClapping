@@ -3,14 +3,19 @@ package com.tadhg.onehandclapping.adapter;
 /**
  * Created by Tadhg on 13/11/2015.
  */
+import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tadhg.onehandclapping.R;
+import com.tadhg.onehandclapping.SecondPage;
+import com.tadhg.onehandclapping.activity.SaveClapDialog;
 import com.tadhg.onehandclapping.model.ClapItem;
 
 import java.util.ArrayList;
@@ -26,45 +31,45 @@ public class GridAdapter  extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     public GridAdapter() {
         super();
         mItems = new ArrayList<ClapItem>();
-        ClapItem species = new ClapItem();
-        species.setName("Amur Leopard");
-        species.setThumbnail(R.drawable.leopard);
-        mItems.add(species);
+        ClapItem clap = new ClapItem();
+        clap.setName("Thursday clap");
+        clap.setThumbnail(R.drawable.clapping_icon);
+        mItems.add(clap);
 
-        species = new ClapItem();
-        species.setName("Black Rhino");
-        species.setThumbnail(R.drawable.clapping1);
-        mItems.add(species);
+        clap = new ClapItem();
+        clap.setName("Polite Applause");
+        clap.setThumbnail(R.mipmap.bw_applause);
+        mItems.add(clap);
 
-        species = new ClapItem();
-        species.setName("Orangutan");
-        species.setThumbnail(R.drawable.clapping2);
-        mItems.add(species);
+        clap = new ClapItem();
+        clap.setName("Business Clap");
+        clap.setThumbnail(R.mipmap.business_clap);
+        mItems.add(clap);
 
-        species = new ClapItem();
-        species.setName("Sea Lions");
-        species.setThumbnail(R.drawable.clap3);
-        mItems.add(species);
+        clap = new ClapItem();
+        clap.setName("Big Clap");
+        clap.setThumbnail(R.mipmap.big_applause);
+        mItems.add(clap);
 
-        species = new ClapItem();
-        species.setName("Indian Elephant");
-        species.setThumbnail(R.drawable.elephant);
-        mItems.add(species);
+        clap = new ClapItem();
+        clap.setName("Slow Clap");
+        clap.setThumbnail(R.mipmap.slow_clap);
+        mItems.add(clap);
 
-        species = new ClapItem();
-        species.setName("Giant Panda");
-        species.setThumbnail(R.drawable.fish);
-        mItems.add(species);
+        clap = new ClapItem();
+        clap.setName("Clap");
+        clap.setThumbnail(R.mipmap.clap_emoji);
+        mItems.add(clap);
 
-        species = new ClapItem();
-        species.setName("Snow Leopard");
-        species.setThumbnail(R.drawable.fish);
-        mItems.add(species);
+        clap = new ClapItem();
+        clap.setName("Applause");
+        clap.setThumbnail(R.drawable.clapping1);
+        mItems.add(clap);
 
-        species = new ClapItem();
-        species.setName("Dolphin");
-        species.setThumbnail(R.drawable.dolphin);
-        mItems.add(species);
+        clap = new ClapItem();
+        clap.setName("Clap dat");
+        clap.setThumbnail(R.drawable.clapping2);
+        mItems.add(clap);
     }
 
     @Override
@@ -78,8 +83,9 @@ public class GridAdapter  extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         ClapItem nature = mItems.get(i);
-        viewHolder.tvspecies.setText(nature.getName());
+        viewHolder.tvClapName.setText(nature.getName());
         viewHolder.imgThumbnail.setImageResource(nature.getThumbnail());
+        viewHolder.imgThumbnail.setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
 
     @Override
@@ -91,12 +97,30 @@ public class GridAdapter  extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder{
 
         public ImageView imgThumbnail;
-        public TextView tvspecies;
+        public TextView tvClapName;
+        ClapItem clapItem;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imgThumbnail = (ImageView)itemView.findViewById(R.id.img_thumbnail);
-            tvspecies = (TextView)itemView.findViewById(R.id.tv_species);
+            imgThumbnail = (ImageView)itemView.findViewById(R.id.picture);
+            tvClapName = (TextView)itemView.findViewById(R.id.tv_species);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    Intent intent = new Intent(v.getContext(), SecondPage.class);
+                    v.getContext().startActivity(intent);
+                    //  Toast.makeText(v.getContext(), "os version is: " + clapItem.getName(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
         }
+
     }
-}
+
+
+    }
+
