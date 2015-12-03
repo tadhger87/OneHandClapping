@@ -15,12 +15,19 @@ import android.widget.TextView;
 
 import com.tadhg.onehandclapping.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * Created by Tadhg on 20/11/2015.
  */
 public class SaveClapDialog extends DialogFragment implements TextView.OnEditorActionListener {
 // blah
     private EditText mEditText;
+    private TextView dateText;
+    Calendar dateCalendar;
+
+
 
     public interface SaveClapDialogListener {
         void onFinishEditDialog(String inputText);
@@ -43,6 +50,7 @@ public class SaveClapDialog extends DialogFragment implements TextView.OnEditorA
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.save_clap_dialog, container);
     }
 
@@ -51,6 +59,13 @@ public class SaveClapDialog extends DialogFragment implements TextView.OnEditorA
         super.onViewCreated(view, savedInstanceState);
         // Get field from view
         mEditText = (EditText) view.findViewById(R.id.etxt_clap_name);
+        dateText = (TextView)view.findViewById(R.id.date_tv);
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("EEEE, MMM dd, yyyy");
+        //Or use only MMM if you want only 3 characters in the month
+        String formattedDate = df.format(c.getTime());
+        dateText.setText(formattedDate);
+
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);

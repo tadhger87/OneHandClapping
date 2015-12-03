@@ -20,7 +20,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +38,7 @@ import java.util.TimerTask;
 /**
  * Created by Tadhg on 22/09/2015.
  */
-public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapDialogListener {
+public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapDialogListener, MediaRecorder.OnInfoListener {
 //http://stackoverflow.com/questions/23194192/progress-while-recording-audio
     private MediaRecorder myRecorder;
     private MediaPlayer myPlayer;
@@ -46,10 +49,9 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
     private Button stopPlayBtn;
     private TextView text;
     private Button saveButton;
-
-
+    private ImageView there, gone, play, pause;
     private ProgressBar mProgress;
-
+    private LinearLayout buttonsLayout;
 
     protected boolean hasMicrophone() {
         PackageManager pmanager = getActivity().getPackageManager();
@@ -71,6 +73,12 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
 
         mProgress          =(ProgressBar) rootView.findViewById(R.id.progress_rec);
         text = (TextView) rootView.findViewById(R.id.text1);
+        there = (ImageView)rootView.findViewById(R.id.micImage);
+        gone = (ImageView)rootView.findViewById(R.id.micImageStop);
+        play = (ImageView)rootView.findViewById(R.id.playImage);
+        pause = (ImageView)rootView.findViewById(R.id.pauseImage);
+
+        buttonsLayout = (LinearLayout)rootView.findViewById(R.id.linearbuttons);
         // store it to sd card
         outputFile = Environment.getExternalStorageDirectory().
                 getAbsolutePath() + "/javacodegeeksRecording.3gpp";
@@ -90,6 +98,13 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+                there.setVisibility(View.GONE);
+                mProgress.setVisibility(View.VISIBLE);
+
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)buttonsLayout.getLayoutParams();
+                params.addRule(RelativeLayout.BELOW, R.id.linear_top);
+
+                buttonsLayout.setLayoutParams(params);
                 start(v);
             }
         });
@@ -100,6 +115,14 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+
+
+                mProgress.setVisibility(View.GONE);
+                gone.setVisibility(View.VISIBLE);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)buttonsLayout.getLayoutParams();
+                params.addRule(RelativeLayout.BELOW, R.id.linear_top);
+
+                buttonsLayout.setLayoutParams(params);
                 stop(v);
             }
         });
@@ -110,6 +133,13 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+
+                gone.setVisibility(View.GONE);
+                play.setVisibility(View.VISIBLE);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)buttonsLayout.getLayoutParams();
+                params.addRule(RelativeLayout.BELOW, R.id.linear_top);
+
+                buttonsLayout.setLayoutParams(params);
                 play(v);
             }
         });
@@ -121,6 +151,13 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 stopPlay(v);
+
+                play.setVisibility(View.GONE);
+                pause.setVisibility(View.VISIBLE);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)buttonsLayout.getLayoutParams();
+                params.addRule(RelativeLayout.BELOW, R.id.linear_top);
+
+        buttonsLayout.setLayoutParams(params);
             }
         });
 
@@ -151,8 +188,18 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
 */
     public void start(View view){
         try {
+            myRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener(){
+            public void onInfo(MediaRecorder mr, int what, int extra){
+                    if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED) {
+                        Log.v("AUDIOCAPTURE", "Maximum Duration Reached");
+                        mr.stop();
+                    }
+                }
+            });
             myRecorder.prepare();
             myRecorder.start();
+            myRecorder.setMaxDuration(10000); // 10 seconds
+
         } catch (IllegalStateException e) {
             // start:it is called before prepare()
             // prepare: it is called after start() or before setOutputFormat()
@@ -162,15 +209,21 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
             e.printStackTrace();
         }
 
-
-
         text.setText("One Hand Clapping: Recording");
         startBtn.setEnabled(false);
         stopBtn.setEnabled(true);
 
         Toast.makeText(getActivity(), "Start recording...",
                 Toast.LENGTH_SHORT).show();
+
     }
+
+public void onInfo(MediaRecorder mr, int what, int extra) {
+        if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED) {
+        Log.v("AUDIOCAPTURE","Maximum Duration Reached");
+        mr.stop();
+        }
+        }
 
     public void stop(View view){
         try {
@@ -180,7 +233,7 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
 
             stopBtn.setEnabled(false);
             playBtn.setEnabled(true);
-            startBtn.setEnabled(true);
+            startBtn.setEnabled(false);
 
 
 
@@ -223,6 +276,7 @@ public class RecordFragment extends Fragment implements SaveClapDialog.SaveClapD
                 myPlayer.stop();
                 myPlayer.release();
                 myPlayer = null;
+                startBtn.setEnabled(true);
                 playBtn.setEnabled(true);
                 stopPlayBtn.setEnabled(false);
                 text.setText("Recording Point: Stop playing");
