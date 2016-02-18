@@ -77,4 +77,84 @@
             </LinearLayout>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
+
+    <!--
+    <RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_margin="5dp" >
+
+
+
+    <EditText
+        android:id="@+id/etxt_clap_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/clap_etxt_hint"
+
+        android:nextFocusDown="@+id/etxt_schedule"
+        android:singleLine="true" />
+
+
+
+<EditText
+    android:id="@+id/etxt_schedule"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:layout_below="@+id/etxt_clap_name"
+    android:hint="@string/clap_etxt_hint_2"
+    android:nextFocusDown="@+id/etxt_translate"
+    android:singleLine="true" />
+
+
+
+<Spinner
+    android:id="@+id/spinner_category"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/etxt_schedule" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/date_tv"
+        android:text="The date"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/spinner_category"
+        android:layout_margin="5dp"/>
+
+<LinearLayout
+    android:id="@+id/layout_submit"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/date_tv"
+    android:layout_margin="5dp"
+    android:orientation="horizontal"
+    android:weightSum="2" >
+
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="1"
+        android:enabled="true"
+        android:text="@string/dialog_save" />
+
+    <Button
+        android:id="@+id/button_cancel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_weight="1"
+        android:text="@string/dialog_cancel" />
+</LinearLayout>
+</RelativeLayout>
+-->
 </RelativeLayout>

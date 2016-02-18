@@ -19,4 +19,9 @@
     <dimen name="legend_text_font_size">20dp</dimen>
 
 
+
+
+        <integer name="gallery_columns">2</integer>
+
+
 </resources>

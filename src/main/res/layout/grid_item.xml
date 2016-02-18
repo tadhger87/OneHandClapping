@@ -19,21 +19,21 @@
             android:layout_width="165dp"
             android:layout_height="160dp">
 
-            <com.tadhg.onehandclapping.SquareImageView
-                android:id="@+id/picture"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                />
-<!--
-            <ImageView
-                android:id="@+id/img_thumbnail"
-                android:layout_width="wrap_content"
-                android:layout_height="150dp"
+            <!--    <com.tadhg.onehandclapping.SquareImageView
+                    android:id="@+id/picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    />-->
 
-                android:scaleType="centerCrop"
-                android:layout_above="@+id/tv_species" />
-            -->
+                        <ImageView
+                            android:id="@+id/img_thumbnail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="150dp"
+
+                            android:scaleType="centerCrop"
+                            android:layout_above="@+id/tv_species" />
+
             <TextView
                 android:id="@+id/tv_species"
                 android:layout_width="fill_parent"

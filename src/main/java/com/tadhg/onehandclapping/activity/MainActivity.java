@@ -1,5 +1,6 @@
 package com.tadhg.onehandclapping.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +21,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
 
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +85,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
                 break;
             case 1:
                 fragment = new ClapsFragment();
-                title = getString(R.string.title_claps);
+                title = getString(R.string.title_claps );
                 break;
             case 2:
                 fragment = new MessagesFragment();
@@ -96,9 +98,16 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_body, fragment);
+            fragmentTransaction.replace(R.id.container_body,fragment );
             fragmentTransaction.commit();
 
+SaveClapDialog saveClapDialog = new SaveClapDialog();
+            saveClapDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+
+                }
+            });
             // set the toolbar title
             getSupportActionBar().setTitle(title);
         }
