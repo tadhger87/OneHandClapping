@@ -39,6 +39,12 @@
 
         </activity>
 
+        <activity
+            android:name=".activity.TransitionActivity"
+            android:label="@string/title_activity_transition_activity">
+
+        </activity>
+
 
     </application>
 

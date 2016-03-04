@@ -1,6 +1,5 @@
 package com.tadhg.onehandclapping.activity;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -10,7 +9,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,12 +17,10 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,16 +36,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * Created by Tadhg on 20/11/2015.
+ * Created by Tadhg on 01/03/2016.
  */
-public class SaveClapDialog extends DialogFragment implements View.OnClickListener {
-// blah
+public class SaveClapDialog2  extends DialogFragment implements View.OnClickListener {
+    // blah
     private EditText mEditText;
     private TextView dateText;
     private Button save, cancel, cameraButton;
@@ -75,14 +70,14 @@ public class SaveClapDialog extends DialogFragment implements View.OnClickListen
         void onFinishEditDialog(String inputText);
     }
 
-    public SaveClapDialog() {
+    public SaveClapDialog2() {
         // Empty constructor is required for DialogFragment
         // Make sure not to add arguments to the constructor
         // Use `newInstance` instead as shown below
     }
 
-    public static SaveClapDialog newInstance(String title) {
-        SaveClapDialog frag = new SaveClapDialog();
+    public static SaveClapDialog2 newInstance(String title) {
+        SaveClapDialog2 frag = new SaveClapDialog2();
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
@@ -93,7 +88,7 @@ public class SaveClapDialog extends DialogFragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-            clapDAO = new ClapDAO (getActivity());
+        clapDAO = new ClapDAO (getActivity());
 
         return inflater.inflate(R.layout.save_clap_dialog, container);
     }
@@ -102,59 +97,56 @@ public class SaveClapDialog extends DialogFragment implements View.OnClickListen
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        findViewsById(view);
-        setListeners();
+       // findViewsById(view);
+        //setListeners();
+
+        SharedPreferences prefs = getActivity().getSharedPreferences("MyPref", 0);
+        final String output = prefs.getString("recording", null);
 
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
         // Show soft keyboard automatically and request focus to field
-        mEditText.requestFocus();
+
 
         clapItem = new ClapItem();
-        clapItem.setClapName(mEditText.getText().toString());
-        SharedPreferences prefs = getActivity().getSharedPreferences("MyPref", 0);
-        final String output = prefs.getString("recording", null);
 
-        dateText.setText(output);
-        getDialog().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        mEditText = (EditText) view.findViewById(R.id.etxt_clap_name);
+        dateText = (TextView) view.findViewById(R.id.date_tv);
+        save = (Button) view.findViewById(R.id.button_save);
+        cancel = (Button) view.findViewById(R.id.button_cancel);
+        cameraButton = (Button) view.findViewById(R.id.cameraButton);
+        imageView = (ImageView) view.findViewById(R.id.camera_iv);
 
-    }
+        mEditText.requestFocus();
 
-    private void findViewsById(View rootView){
-        mEditText = (EditText) rootView.findViewById(R.id.etxt_clap_name);
-        dateText = (TextView) rootView.findViewById(R.id.date_tv);
-        save = (Button) rootView.findViewById(R.id.button_save);
-        cancel = (Button) rootView.findViewById(R.id.button_cancel);
-        cameraButton = (Button) rootView.findViewById(R.id.cameraButton);
-        imageView = (ImageView) rootView.findViewById(R.id.camera_iv);
-    }
+        //some methods using lambdas
+        cancel.setOnClickListener(v -> dismiss());
 
-    private void setListeners(){
-        cancel.setOnClickListener(this);
-        save.setOnClickListener(this);
-        cameraButton.setOnClickListener(this);
-    }
-
-
-    @Override
-    public void onClick(View v) {
-
-        if(v == cancel){
-            dismiss();
-        } else if (v == cameraButton){
-            selectImage();
-        }else if (v == save){
-            setClap();
+        save.setOnClickListener(v -> {
+            clapItem.setClapName(mEditText.getText().toString());
+            clapItem.setClapDate(formattedDate);
+            clapItem.setAudioRef(output);
             task = new AddClapTask(getActivity());
             task.execute((Void) null);
             mEditText.setText("");
+        });
+
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
+
+
+         dateText.setText(formattedDate);
+        getDialog().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+
+
         }
-    }
-
-
-
     private void selectImage() {
         final CharSequence[] items = { "Take Photo", "Choose from Library", "Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -213,15 +205,18 @@ public class SaveClapDialog extends DialogFragment implements View.OnClickListen
                 {
                     do {
                         Uri uri = Uri.parse(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)));
-                       String cameraPath = uri.toString();
+                        String cameraPath = uri.toString();
                         dateText.setText(cameraPath);
 
-                        SharedPreferences.Editor editor = getActivity().getSharedPreferences("pref", 0).edit();
+                        /*SharedPreferences.Editor editor = getActivity().getSharedPreferences("pref", 0).edit();
                         editor.putString("pic", "" + cameraPath);
-                        editor.apply();
+                        editor.apply();*/
 
+                        clapItem = new ClapItem();
+                        clapItem.setPictureRef(cameraPath);
                     }while(cursor.moveToNext());
                     cursor.close();
+
 
                 }
 
@@ -248,44 +243,16 @@ public class SaveClapDialog extends DialogFragment implements View.OnClickListen
                 options.inJustDecodeBounds = false;
                 bm = BitmapFactory.decodeFile(selectedImagePath, options);
                 imageView.setImageBitmap(bm);
-                dateText.setText(selectedImagePath);
+                //dateText.setText(selectedImagePath);
 
-                SharedPreferences.Editor editor = getActivity().getSharedPreferences("pref2", 0).edit();
-                editor.putString("selectedPic", "" + selectedImagePath);
-                editor.apply();
+                clapItem = new ClapItem();
+                clapItem.setPictureRef(selectedImagePath);
+
             }
         }
     }
 
-   private void setClap() {
-       SharedPreferences prefs = getActivity().getSharedPreferences("MyPref", 0);
-       final String output = prefs.getString("recording", null);
 
-       SharedPreferences pref = getActivity().getSharedPreferences("pref", 0);
-       final String cameraPath = pref.getString("pic", null);
-
-       SharedPreferences pref2 = getActivity().getSharedPreferences("pref2", 0);
-       final String selectedPath = pref2.getString("selectedPic", null);
-
-       clapItem = new ClapItem();
-
-       if ("".equals(mEditText.getText().toString())) {
-           Toast toast = Toast.makeText(this.getActivity(), "You have to give your clap a name!", Toast.LENGTH_SHORT);
-           toast.show();
-       } else {
-           clapItem.setClapName(mEditText.getText().toString());
-           clapItem.setClapDate(formattedDate);
-           clapItem.setAudioRef(output);
-           clapItem.setPictureRef(cameraPath);
-         //  clapItem.setPictureRef(cameraPath);
-
-        /*   if (onActivityResult(requestCode).requestCode == REQUEST_CAMERA){
-               clapItem.setPictureRef(cameraPath);
-           }else if (requestCode == SELECT_FILE){
-               clapItem.setPictureRef(selectedPath);
-           }*/
-       }
-   }
 
     private DialogInterface.OnDismissListener onDismissListener;
 
@@ -327,6 +294,68 @@ public class SaveClapDialog extends DialogFragment implements View.OnClickListen
             }
         }
     }
+    /*private void findViewsById(View rootView){
+        mEditText = (EditText) rootView.findViewById(R.id.etxt_clap_name);
+        dateText = (TextView) rootView.findViewById(R.id.date_tv);
+        save = (Button) rootView.findViewById(R.id.button_save);
+        cancel = (Button) rootView.findViewById(R.id.button_cancel);
+        cameraButton = (Button) rootView.findViewById(R.id.cameraButton);
+        imageView = (ImageView) rootView.findViewById(R.id.camera_iv);
+    }
 
+    private void setListeners(){
+        cancel.setOnClickListener(this);
+        save.setOnClickListener(this);
+        cameraButton.setOnClickListener(this);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+
+        if(v == cancel){
+            dismiss();
+        } else if (v == cameraButton){
+            selectImage();
+        }else if (v == save){
+            setClap();
+            task = new AddClapTask(getActivity());
+            task.execute((Void) null);
+            mEditText.setText("");
+        }
+    }
+
+    private void setClap() {
+        SharedPreferences prefs = getActivity().getSharedPreferences("MyPref", 0);
+        final String output = prefs.getString("recording", null);
+
+        SharedPreferences pref = getActivity().getSharedPreferences("pref", 0);
+        final String cameraPath = pref.getString("pic", null);
+
+        SharedPreferences pref2 = getActivity().getSharedPreferences("pref2", 0);
+        final String selectedPath = pref2.getString("selectedPic", null);
+
+        clapItem = new ClapItem();
+        if ("".equals(mEditText.getText().toString())) {
+            Toast toast = Toast.makeText(this.getActivity(), "You have to give your clap a name!", Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            clapItem.setClapName(mEditText.getText().toString());
+            clapItem.setClapDate(formattedDate);
+            clapItem.setAudioRef(output);
+            clapItem.setPictureRef(cameraPath);
+
+        }
+    }*/
+
+
+
+
+
+    @Override
+    public void onClick(View v) {
+
+    }
 
 }
+

@@ -6,6 +6,7 @@ package com.tadhg.onehandclapping.db;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,9 +28,10 @@ public class ClapDAO extends ClapDBDAO {
     public long save(ClapItem clapItem) {
         ContentValues values = new ContentValues();
         values.put(DataBaseHelper.CLAP_NAME_COLUMN, clapItem.getClapName());
+        values.put(DataBaseHelper.PICTURE_REF, clapItem.getPictureRef());
         values.put(DataBaseHelper.CLAP_DATE, clapItem.getClapDate());
         values.put(DataBaseHelper.AUDIO_REF, clapItem.getAudioRef());
-       // values.put(DataBaseHelper.PICTURE_REF, clapItem.getPictureRef());
+
 
         return database.insert(DataBaseHelper.CLAP_TABLE, null, values);
     }
@@ -47,6 +49,7 @@ public class ClapDAO extends ClapDBDAO {
         Cursor cursor = database.query(DataBaseHelper.CLAP_TABLE,
                 new String[] { DataBaseHelper.ID_COLUMN,
                         DataBaseHelper.CLAP_NAME_COLUMN,
+                        DataBaseHelper.PICTURE_REF,
                         DataBaseHelper.CLAP_DATE,
                         DataBaseHelper.AUDIO_REF }, null, null, null,
                 null, null);
@@ -55,12 +58,27 @@ public class ClapDAO extends ClapDBDAO {
             ClapItem clap = new ClapItem();
             clap.setId(cursor.getInt(0));
             clap.setClapName(cursor.getString(1));
-            clap.setClapDate(cursor.getString(2));
-            clap.setAudioRef(cursor.getString(3));
+            clap.setPictureRef(cursor.getString(2));
+            clap.setClapDate(cursor.getString(3));
+            clap.setAudioRef(cursor.getString(4));
 
             clapItems.add(clap);
         }
         return clapItems;
+    }
+
+    public long update(ClapItem clapItem) {
+        ContentValues values = new ContentValues();
+        values.put(DataBaseHelper.CLAP_NAME_COLUMN, clapItem.getClapName());
+        values.put(DataBaseHelper.CLAP_DATE, clapItem.getClapDate());
+        values.put(DataBaseHelper.AUDIO_REF, clapItem.getAudioRef());
+        values.put(DataBaseHelper.PICTURE_REF, clapItem.getPictureRef());
+
+        long result = database.update(DataBaseHelper.CLAP_TABLE, values,
+                WHERE_ID_EQUALS,
+                new String[]{String.valueOf(clapItem.getId())});
+        Log.d("Update Result:", "=" + result);
+        return result;
     }
 
     //Retrieves a single employee record with the given id
@@ -76,11 +94,14 @@ public class ClapDAO extends ClapDBDAO {
             clapItem = new ClapItem();
             clapItem.setId(cursor.getInt(0));
             clapItem.setClapName(cursor.getString(1));
-            clapItem.setClapDate(cursor.getString(2));
-            clapItem.setAudioRef(cursor.getString(3));
+            clapItem.setPictureRef(cursor.getString(2));
+            clapItem.setClapDate(cursor.getString(3));
+            clapItem.setAudioRef(cursor.getString(4));
         }
         return clapItem;
 
 
     }
+
+
 }

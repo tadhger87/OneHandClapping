@@ -45,6 +45,7 @@ public class ClapsFragment extends Fragment implements View.OnClickListener {
     ArrayList<ClapItem> claps;
     GridAdapter clapGridAdapter;
     ClapDAO clapDAO;
+    private static final int MY_REQUEST = 1001;
 
     public static final String ARG_ITEM_ID = "employee_list";
 
@@ -70,9 +71,9 @@ public class ClapsFragment extends Fragment implements View.OnClickListener {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        //Context mContext = getActivity();
-       // final int columns = getResources().getInteger(R.integer.gallery_columns);
-       // mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, columns));
+        Context mContext = getActivity();
+        final int columns = getResources().getInteger(R.integer.gallery_columns);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, columns));
         clapGridAdapter = new GridAdapter(activity, myClap);
         mRecyclerView.setAdapter(clapGridAdapter);
 
@@ -84,8 +85,61 @@ public class ClapsFragment extends Fragment implements View.OnClickListener {
         return rootView;
     }
 
+   /* @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(resultCode){
 
+            case Activity.RESULT_OK:
 
+                // ... Check for some data from the intent
+                if(requestCode == MY_REQUEST){
+                    // .. lets toast again
+                    int position = -1;
+                    if(data != null){
+                        position = data.getIntExtra("Position", 0);
+                        ClapItem updatedItem = (ClapItem)data.getExtras().get("passed_item");
+                        //updatedItem.get
+                        Toast.makeText(getActivity(), "what " + position, Toast.LENGTH_SHORT).show();
+                    }
+
+                    if(position != -1) {
+                        Toast.makeText(getActivity(), "Handled the result successfully at position " + position, Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getActivity(), "Failed to get data from intent" , Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                break;
+
+            case Activity.RESULT_CANCELED:
+
+                // ... Handle this situation
+                break;
+        }
+    }*/
+/*
+    @Override
+    public void onHandleSelection(int position, String text) {
+
+        Toast.makeText(getActivity(), "Selected item in list "+ position + " with text "+ text, Toast.LENGTH_SHORT).show();
+
+        // ... Start a new Activity here and pass the values
+        Intent secondActivity = new Intent(MainActivity.this, DetailActivity.class);
+        secondActivity.putExtra("Text",text);
+        secondActivity.putExtra("Position", position);
+        startActivityForResult(secondActivity, MY_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            ClapItem updatedItem = (ClapItem)data.getExtras().get("passed_item");
+            // deal with the item yourself
+
+        }
+    }*/
 //set up adapter and pass clicked listener this
 
 

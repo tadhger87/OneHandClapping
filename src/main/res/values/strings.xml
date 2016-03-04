@@ -53,6 +53,7 @@
     <string name="dialog_save">Save</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="title_activity_second_page">SecondPage</string>
+    <string name="title_activity_transition_activity">Transition Activity</string>
 
 
 </resources>

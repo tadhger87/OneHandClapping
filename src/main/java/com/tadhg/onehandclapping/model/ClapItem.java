@@ -12,11 +12,8 @@ import java.util.Date;
 public class ClapItem implements Parcelable{
 
 
-    private String clapName;
-    private int clapThumbnail;
+    private String clapName, pictureRef, clapDate, audioRef;
     private int id;
-    private String clapDate;
-    private String audioRef;
     public static final String EXTRA_CONTENT_DETAIL = "contentDetail";
 
     public ClapItem() {
@@ -27,7 +24,7 @@ public class ClapItem implements Parcelable{
         super();
         this.id = in.readInt();
         this.clapName = in.readString();
-        this.clapThumbnail = in.readInt();
+        this.pictureRef = in.readString();
         this.clapDate = in.readString();
         this.audioRef = in.readString();
 
@@ -49,12 +46,12 @@ public class ClapItem implements Parcelable{
         this.clapName = clapName;
     }
 
-    public int getClapThumbnail() {
-        return clapThumbnail;
+    public String getPictureRef() {
+        return pictureRef;
     }
 
-    public void setClapThumbnail(int clapThumbnail) {
-        this.clapThumbnail = clapThumbnail;
+    public void setPictureRef(String pictureRef) {
+        this.pictureRef = pictureRef;
     }
 
     public String getClapDate() {
@@ -77,7 +74,7 @@ public class ClapItem implements Parcelable{
 
     @Override
     public String toString() {
-        return "Clap [id=" + id + ", clapName=" + clapName + ", clapThumbnail=" + clapThumbnail + ", clapDate="
+        return "Clap [id=" + id + ", clapName=" + clapName + ", pictureRef=" + pictureRef + ", clapDate="
                 + clapDate + ", audioRef=" + audioRef + "]";
     }
 
@@ -112,7 +109,7 @@ public class ClapItem implements Parcelable{
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(getId());
         parcel.writeString(getClapName());
-        parcel.writeInt(getClapThumbnail());
+        parcel.writeString(getPictureRef());
         parcel.writeString(getClapDate());
         parcel.writeString(getAudioRef());
     }

@@ -23,7 +23,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String CREATE_CLAP_TABLE = "CREATE TABLE "
             + CLAP_TABLE + "(" + ID_COLUMN + " INTEGER PRIMARY KEY, "
             + CLAP_NAME_COLUMN + " TEXT, " + AUDIO_REF + " TEXT, "
-            + CLAP_DATE + " TEXT" + PICTURE_REF + " TEXT" + ")";
+            + CLAP_DATE + " TEXT, " + PICTURE_REF + " TEXT" + ")";
 
     private static DataBaseHelper instance;
 

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 
 import android.content.ContentResolver;
@@ -45,7 +47,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener, Me
     MediaPlayer myPlayer;
     File audiofile = null;
     static final String TAG = "MediaRecording";
-    Button startButton,stopButton, playButton, stopPlayButton, saveButton, discardButton;
+    Button startButton,stopButton, playButton, stopPlayButton, saveButton, discardButton, dicklips;
     private ImageView mic, gone, play, pause;
     private ProgressBar mProgress;
     private LinearLayout buttonsLayout;
@@ -75,6 +77,8 @@ public class RecordFragment extends Fragment implements View.OnClickListener, Me
 
 
 
+
+
         return rootView;
     }
 
@@ -92,6 +96,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener, Me
         play = (ImageView)rootView.findViewById(R.id.playImage);
         pause = (ImageView)rootView.findViewById(R.id.pauseImage);
         buttonsLayout = (LinearLayout)rootView.findViewById(R.id.linearbuttons);
+        //dicklips = (Button)rootView.findViewById(R.id.transButton);
 
     }
 
@@ -102,6 +107,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener, Me
         playButton.setOnClickListener(this);
         stopPlayButton.setOnClickListener(this);
         saveButton.setOnClickListener(this);
+       // dicklips.setOnClickListener(this);
 //        discardButton.setOnClickListener(this);
     }
 
@@ -244,15 +250,16 @@ public class RecordFragment extends Fragment implements View.OnClickListener, Me
         //after stopping the recorder, create the sound file and add it to media library.
         addRecordingToMediaLibrary();
         FragmentManager fm = getFragmentManager();
-        SaveClapDialog saveClapDialog = SaveClapDialog.newInstance("Save Clap");
+        SaveClapDialog2 saveClapDialog = SaveClapDialog2.newInstance("Save Clap");
 
-saveClapDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        saveClapDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
     @Override
     public void onDismiss(DialogInterface dialog) {
         Fragment newFragment = new RecordFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.container_body, newFragment);
-        transaction.addToBackStack(null);
+       // transaction.addToBackStack(null);
         transaction.commit();
     }
 });
@@ -262,7 +269,11 @@ saveClapDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
 
     }
 
+private void trans(){
+   //Intent intent = new Intent(getActivity(), TransitionActivity.class);
+    startActivity(new Intent(getActivity(), TransitionActivity.class));
 
+}
 
 
 
@@ -314,7 +325,8 @@ saveClapDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             stopPlayAudio(view);
         }else if (view == saveButton) {
             showSaveDialog();
-
+        }else if (view == dicklips){
+            trans();
         }
     }
     @Override
