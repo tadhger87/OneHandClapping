@@ -2,12 +2,9 @@ package com.tadhg.onehandclapping.activity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
@@ -15,16 +12,12 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,16 +25,10 @@ import com.tadhg.onehandclapping.R;
 import com.tadhg.onehandclapping.db.ClapDAO;
 import com.tadhg.onehandclapping.model.ClapItem;
 
-import junit.framework.Assert;
-
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 
-public class SecondPage extends ActionBarActivity implements View.OnClickListener {
+public class DetailActivity extends ActionBarActivity implements View.OnClickListener {
 
     private  Context context;
     Button nb, updateButton;
@@ -61,7 +48,7 @@ public class SecondPage extends ActionBarActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second_page);
+        setContentView(R.layout.detail_activity);
 
         clapDAO = new ClapDAO(this);
         //clapItem = new ClapItem();

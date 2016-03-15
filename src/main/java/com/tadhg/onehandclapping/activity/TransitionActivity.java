@@ -35,8 +35,8 @@ public class TransitionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.transition_activity);
-        Button view = (Button) findViewById(R.id.button);
-        view.setOnClickListener(e -> Toast.makeText(this, "Hello", Toast.LENGTH_LONG).show());
+     //   Button view = (Button) findViewById(R.id.button);
+      //  view.setOnClickListener(e -> Toast.makeText(this, "Hello", Toast.LENGTH_LONG).show());
        // setupEnterAnimation();
 
     }

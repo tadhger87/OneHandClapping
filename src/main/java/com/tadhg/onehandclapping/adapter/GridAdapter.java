@@ -3,17 +3,17 @@ package com.tadhg.onehandclapping.adapter;
 /**
  * Created by Tadhg on 13/11/2015.
  */
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,16 +21,12 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.tadhg.onehandclapping.R;
-import com.tadhg.onehandclapping.activity.SecondPage;
+import com.tadhg.onehandclapping.activity.DetailActivity;
 import com.tadhg.onehandclapping.db.ClapDAO;
 import com.tadhg.onehandclapping.model.ClapItem;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 
 
@@ -40,21 +36,17 @@ public class GridAdapter  extends RecyclerView.Adapter<GridAdapter.ClapViewHolde
     private static final String TAG = "Falafel";
     private int REQUEST_CODE;
 
-    private CallbackInterface mCallback;
+
 
     public interface ItemClickListener {
         void onClick(List<ClapItem> list, View view, int position, boolean isLongClick);
     }
 
-    public interface CallbackInterface{
-
-        /**
-         * Callback invoked when clicked
-         * @param position - the position
-         * @param text - the text to pass back
-         */
-        void onHandleSelection(int position, ClapItem text);
+    public interface ItemTouchListener {
+        void onTouch(List<ClapItem> list, View view, int position);
     }
+
+
 
     public interface OnItemLongClickListener {
         public boolean onItemLongClicked(int position);
@@ -81,6 +73,7 @@ public class GridAdapter  extends RecyclerView.Adapter<GridAdapter.ClapViewHolde
 
 
     public static class ClapViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener
+        ,View.OnTouchListener
 
     {
 
@@ -89,6 +82,8 @@ public class GridAdapter  extends RecyclerView.Adapter<GridAdapter.ClapViewHolde
         public ImageView imgThumbnail;
         public TextView tvClapName;
         private ItemClickListener clickListener;
+        private RecyclerView.OnItemTouchListener touchListener;
+        final MediaPlayer mp = new MediaPlayer();
        // private int REQUEST_CODE;
 
          public ClapViewHolder(View itemView) {
@@ -99,13 +94,16 @@ public class GridAdapter  extends RecyclerView.Adapter<GridAdapter.ClapViewHolde
             itemView.setClickable(true);
             itemView.setOnClickListener(this);
              itemView.setOnLongClickListener(this);
+             itemView.setOnTouchListener(this);
 
         }
 
         public void setClickListener(ItemClickListener itemClickListener) {
             this.clickListener = itemClickListener;
         }
-
+        public void setTouchListener (RecyclerView.OnItemTouchListener itemTouchListener){
+            this.touchListener = itemTouchListener;
+        }
         @Override
         public void onClick(View view) {
 
@@ -118,8 +116,45 @@ public class GridAdapter  extends RecyclerView.Adapter<GridAdapter.ClapViewHolde
         }
 
 
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
 
+            switch (event.getAction())
+            {
 
+                case MotionEvent.ACTION_DOWN:
+                {
+                    if(mp.isPlaying())
+                    {
+                        mp.stop();
+                    }
+
+                    try {
+                        mp.reset();
+                        AssetFileDescriptor afd;
+                        afd = v.getContext().getAssets().openFd("applause-01.mp3");
+                        mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                        mp.prepare();
+
+                    } catch (IllegalStateException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    mp.setLooping(true);
+
+                    mp.start();
+                }
+
+                break;
+                case MotionEvent.ACTION_UP:
+                {
+                    mp.pause();
+                }
+                break;
+            }
+            return true;
+        }
     }
 
 
@@ -173,13 +208,63 @@ getItemId(i);
             holder.tvClapName.setText(null);
         }
 
-       // holder.tvClapName.setText(items.get(i).getClapName());
+/*holder.setTouchListener(new RecyclerView.OnItemTouchListener() {
+    @Override
+    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
 
+        return true;
+    }
+    final MediaPlayer mp = new MediaPlayer();
+    @Override
+    public void onTouchEvent(RecyclerView rv, MotionEvent ev) {
+
+        switch (ev.getAction())
+        {
+
+            case MotionEvent.ACTION_DOWN:
+            {
+                if(mp.isPlaying())
+                {
+                    mp.stop();
+                }
+
+                try {
+                    mp.reset();
+                    AssetFileDescriptor afd;
+                    afd = rv.getContext().getAssets().openFd("applause-01.mp3");
+                    mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                    mp.prepare();
+
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mp.setLooping(true);
+
+                mp.start();
+            }
+
+            break;
+            case MotionEvent.ACTION_UP:
+            {
+                mp.pause();
+            }
+            break;
+        }
+    }
+
+    @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+    }
+});*/
         holder.setClickListener(new ItemClickListener() {
             @Override
             public void onClick(List<ClapItem> list, final View view, final int position, boolean isLongClick) {
                 if (isLongClick) {
-                    // Toast.makeText(context, "#" + position + " - " + items.get(position) + " (Long click)", Toast.LENGTH_SHORT).show();
+
+
                     ClapItem clap = (ClapItem) items.get(position);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
@@ -213,13 +298,12 @@ getItemId(i);
 
 
                 } else {
-//if(mCallback != null)
+
 
                     ClapItem clap = (ClapItem) items.get(position);
-//                    mCallback.onHandleSelection(position, items.get(position));
                     view.getContext();
 
-                    Intent intent = new Intent(context, SecondPage.class);
+                    Intent intent = new Intent(context, DetailActivity.class);
                     //((Activity) context).startActivityForResult(intent,);
                     intent.putExtra(ClapItem.EXTRA_CONTENT_DETAIL, clap);
                     ClapItem readbackCi = intent.getParcelableExtra(ClapItem.EXTRA_CONTENT_DETAIL);
@@ -232,22 +316,7 @@ getItemId(i);
         });
 
     }
-/*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            ClapItem updatedItem = (ClapItem)data.getExtras().get("passed_item");
-            // deal with the item yourself
 
-        }
-    }*/
-    /*@Override
-    public void onFinishDialog() {
-        if (employeeListFragment != null) {
-            employeeListFragment.updateView();
-        }
-    }*/
     @Override
     public int getItemCount() {
         return (null != items ? items.size() : 0);
