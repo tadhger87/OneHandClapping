@@ -17,6 +17,7 @@
     <string name="nav_item_record">Record</string>
     <string name="nav_item_claps">Claps</string>
     <string name="nav_item_stuff">Stuff</string>
+    <string name="nav_item_practice">Practice</string>
 
 
     <!-- navigation drawer item labels -->
@@ -24,11 +25,14 @@
         <item>@string/nav_item_record</item>
         <item>@string/nav_item_claps</item>
         <item>@string/nav_item_stuff</item>
+        <item>@string/nav_item_practice</item>
+
     </string-array>
 
     <string name="title_stuff">Stuff</string>
     <string name="title_claps">Claps</string>
     <string name="title_record">Record</string>
+    <string name="title_practice">Practice</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="display_name">Display name</string>
     <string name="dlg_title">Dialog title</string>
@@ -54,6 +58,7 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="title_activity_second_page">SecondPage</string>
     <string name="title_activity_transition_activity">Transition Activity</string>
+    <string name="title_activity_practice">Practice</string>
 
 
 </resources>

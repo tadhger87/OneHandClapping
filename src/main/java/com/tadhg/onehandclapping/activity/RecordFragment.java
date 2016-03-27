@@ -269,11 +269,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener, Me
 
     }
 
-private void trans(){
-   //Intent intent = new Intent(getActivity(), TransitionActivity.class);
-    startActivity(new Intent(getActivity(), TransitionActivity.class));
 
-}
 
 
 
@@ -325,8 +321,6 @@ private void trans(){
             stopPlayAudio(view);
         }else if (view == saveButton) {
             showSaveDialog();
-        }else if (view == dicklips){
-            trans();
         }
     }
     @Override

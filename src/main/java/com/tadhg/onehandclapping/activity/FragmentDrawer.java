@@ -156,7 +156,7 @@ public class FragmentDrawer extends android.support.v4.app.Fragment {
 
             View child = rv.findChildViewUnder(e.getX(), e.getY());
             if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
-                clickListener.onClick(child, rv.getChildPosition(child));
+                clickListener.onClick(child, rv.getChildAdapterPosition(child));
             }
             return false;
         }

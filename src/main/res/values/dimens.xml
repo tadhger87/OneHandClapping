@@ -19,9 +19,8 @@
     <dimen name="legend_text_font_size">20dp</dimen>
 
 
-
-
-        <integer name="gallery_columns">2</integer>
+    <integer name="gallery_columns">2</integer>
+    <dimen name="fab_margin">16dp</dimen>
 
 
 </resources>

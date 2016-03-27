@@ -11,9 +11,36 @@ import java.util.ArrayList;
  * Created by Tadhg on 09/03/2016.
  */
 public class Clap {
-//implements Parcelable
 
-    public String cName, pictureRef, clapDate, audioRef;
+    //duh
+    private String cName;
+    private int imageId;
+    private String audio;
+
+    public String getCName() {
+        return cName;
+    }
+
+    public void setCName(String name) {
+        this.cName = name;
+    }
+
+    public int getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(int image) {
+        this.imageId = image;
+    }
+
+    public String getAudio(){
+        return audio;
+    }
+
+    public void setAudio(String mAudio){
+        this.audio = mAudio;
+    }
+    /*public String cName;
     private int id, imageId;
     public static final String EXTRA_CONTENT_DETAIL = "contentDetail";
 
@@ -23,14 +50,11 @@ public class Clap {
 
     public Clap(String title, int imageId) {
         super();
-        /*this.id = in.readInt();
-        this.cName = in.readString();
-        this.imageId = in.readInt();*/
+
         this.cName = title;
 
         this.imageId = imageId;
-       /* this.clapDate = in.readString();
-        this.audioRef = in.readString();*/
+
 
     }
 
@@ -60,21 +84,7 @@ public class Clap {
         this.imageId = imageId;
     }
 
-   /* public String getClapDate() {
-        return clapDate;
-    }
 
-    public void setClapDate(String clapDate) {
-        this.clapDate = clapDate;
-    }
-
-    public String getAudioRef() {
-        return audioRef;
-    }
-
-    public void setAudioRef(String audioRef) {
-        this.audioRef = audioRef;
-    }*/
 
 
 
@@ -106,43 +116,6 @@ public class Clap {
             return false;
         return true;
     }
-
-  /*  @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeInt(getId());
-        parcel.writeString(getCName());
-        parcel.writeInt(getImageId());
-        *//*parcel.writeString(getClapDate());
-        parcel.writeString(getAudioRef());*//*
-    }*/
-/*
-
-    public static final Parcelable.Creator<Clap> CREATOR = new Parcelable.Creator<Clap>() {
-        public Clap createFromParcel(Parcel in) {
-            return new Clap(in);
-        }
-
-        public Clap[] newArray(int size) {
-            return new Clap[size];
-        }
-    };
 */
-
-   /* public static ArrayList<Clap> createContactsList(int numContacts) {
-        ArrayList<Clap> claps = new ArrayList<Clap>();
-
-
-        claps.add(new Clap("Clapping", R.drawable.clapping1));
-        for (int i = 1; i <= numContacts; i++) {
-            contacts.add(new Clap("Person " + ++lastContactId, i <= numContacts / 2));
-        }
-
-        return contacts;
-    }*/
 }
 

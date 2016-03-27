@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+    android:layout_gravity="bottom"
+  >
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/buttonclap"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1" />
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="250dp"
+            android:scrollbars="none"
+            android:layout_weight="1"
+
+            android:fillViewport="true"
+
+            >
+
+            <TableLayout
+                android:id="@+id/tableLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dip"
+                android:isScrollContainer="true"
+
+                >
+
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:id="@+id/heartyClapTxt"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="Roboto Regular 16sp"
+                        android:paddingLeft="72dp"
+                        android:paddingStart="72dp"
+                        android:paddingRight="16dp"
+                        android:paddingEnd="16dp"
+                        android:layout_marginRight="56dp"
+                        android:layout_marginEnd="56dp"
+                        android:text="Hearty Clap"
+                        android:textSize="30sp" />
+
+                </TableRow>
+
+
+
+                <TableRow
+                    android:id="@+id/tableRow2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/politeClapTxt"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="Roboto Regular 16sp"
+                        android:paddingLeft="72dp"
+                        android:paddingStart="72dp"
+                        android:paddingRight="16dp"
+                        android:paddingEnd="16dp"
+                        android:layout_marginRight="56dp"
+                        android:layout_marginEnd="56dp"
+                        android:text="Polite Clap"
+                        android:textSize="30sp" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/bigApplauseTxt"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="Roboto Regular 16sp"
+                        android:paddingLeft="72dp"
+                        android:paddingStart="72dp"
+                        android:paddingRight="16dp"
+                        android:paddingEnd="16dp"
+                        android:layout_marginRight="56dp"
+                        android:layout_marginEnd="56dp"
+                        android:text="Big Applause"
+                        android:textSize="30sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/laughClapTxt"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="Roboto Regular 16sp"
+                        android:paddingLeft="72dp"
+                        android:paddingStart="72dp"
+                        android:paddingRight="16dp"
+                        android:paddingEnd="16dp"
+                        android:layout_marginRight="56dp"
+                        android:layout_marginEnd="56dp"
+                        android:text="Laughing Clap"
+                        android:textSize="40sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/thirstyTxt"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="Roboto Regular 16sp"
+                        android:paddingLeft="72dp"
+                        android:paddingStart="72dp"
+                        android:paddingRight="16dp"
+                        android:paddingEnd="16dp"
+                        android:layout_marginRight="56dp"
+                        android:layout_marginEnd="56dp"
+                        android:text="Thirsty"
+                        android:textSize="40sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/lonesomeClapTxt"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="Roboto Regular 16sp"
+                        android:paddingLeft="72dp"
+                        android:paddingStart="72dp"
+                        android:paddingRight="16dp"
+                        android:paddingEnd="16dp"
+                        android:layout_marginRight="56dp"
+                        android:layout_marginEnd="56dp"
+                        android:text="Lonesome Clap"
+                        android:textSize="50sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/awakeTxt"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="Roboto Regular 16sp"
+                        android:paddingLeft="72dp"
+                        android:paddingStart="72dp"
+                        android:paddingRight="16dp"
+                        android:paddingEnd="16dp"
+                        android:layout_marginRight="56dp"
+                        android:layout_marginEnd="56dp"
+
+
+                        android:text="Awake"
+                        android:textSize="50sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/slowClapTxt"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="Roboto Regular 16sp"
+                        android:paddingLeft="72dp"
+                        android:paddingStart="72dp"
+                        android:paddingRight="16dp"
+                        android:paddingEnd="16dp"
+                        android:layout_marginRight="56dp"
+                        android:layout_marginEnd="56dp"
+                        android:text="Slow Clap"
+                        android:textSize="50sp" />
+
+                </TableRow>
+            </TableLayout>
+        </ScrollView>
+
+</LinearLayout>
