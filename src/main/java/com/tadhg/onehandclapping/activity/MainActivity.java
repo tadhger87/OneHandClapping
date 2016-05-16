@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.tadhg.onehandclapping.R;
+import com.tadhg.onehandclapping.adapter.GridAdapter;
 
 public class MainActivity extends ActionBarActivity implements FragmentDrawer.FragmentDrawerListener {
 
@@ -112,8 +113,40 @@ SaveClapDialog saveClapDialog = new SaveClapDialog();
 
                 }
             });
+
+           /* getSupportFragmentManager()
+                    .beginTransaction()
+                    .addSharedElement(sharedElement, transitionName)
+                    .replace(R.id.container, newFragment)
+                    .addToBackStack(null)
+                    .commit();*/
             // set the toolbar title
             getSupportActionBar().setTitle(title);
         }
     }
+    public void switchContent(int id, Fragment fragment) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(id, fragment, fragment.toString());
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
+    public void replaceFragments(Class fragmentClass) {
+        Fragment fragment = null;
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) { e.printStackTrace();
+        } // Insert the fragment by replacing any existing fragment
+         FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.container_body, fragment).commit();
+    }
+
+    /*GridAdapter adapter = new GridAdapter(eventName, eventBrief);
+    adapter.setOnClickListener(new GridAdapter.ItemClickListener(){
+        public void onItemClick(String textName, String textViewBrief){
+            EventFragment eventFragment = EventFragment.newInstance();
+            //replace content frame with your own view.
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();    ft.replace(R.id.content_frame, eventFragment).commit()
+        }
+    });*/
 }

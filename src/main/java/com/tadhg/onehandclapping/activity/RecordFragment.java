@@ -74,6 +74,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener, Me
         findViewsById(rootView);
         setListeners();
         saveButton.setVisibility(View.GONE);
+        setHasOptionsMenu(false);
 
 
 

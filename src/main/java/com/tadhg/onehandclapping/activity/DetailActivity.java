@@ -1,23 +1,41 @@
 package com.tadhg.onehandclapping.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.Animatable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,22 +45,35 @@ import com.tadhg.onehandclapping.model.ClapItem;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
+/**
+ * Created by Tadhg on 06/05/2016.
+ */
 public class DetailActivity extends ActionBarActivity implements View.OnClickListener {
 
-    private  Context context;
-    Button nb, updateButton;
+    private Context context;
     MediaPlayer mp = null;
     AssetFileDescriptor descriptor;
-    TextView  textDate, textAudio, textPicture;
-    EditText textName;
+    TextView textDate, textAudio, textPicture, textName;
     ClapDAO clapDAO;
     ClapItem updatedClap;
-    String name, audio;
+    String audio;
     ImageView picture;
     private UpdateClapTask task;
+    private LinearLayout mRevealView;
+    private EditText mEditTextTodo;
+    private boolean isEditTextVisible;
+    private InputMethodManager mInputManager;
+    int defaultColor;
+    private LinearLayout mTitleHolder;
+    private ListView mList;
+    private TextView mTitle;
 
-    public static final String TAG = "Falafel";
+    public static final String TAG = "Flange";
+    private Boolean isFabOpen = false;
+    private FloatingActionButton audioFAB, editFAB, mAddButton;
+    private Animation fab_open, fab_close, rotate_forward, rotate_backward;
 
 
     @Override
@@ -51,9 +82,28 @@ public class DetailActivity extends ActionBarActivity implements View.OnClickLis
         setContentView(R.layout.detail_activity);
 
         clapDAO = new ClapDAO(this);
-        //clapItem = new ClapItem();
 
         String image = "test";
+        mRevealView = (LinearLayout) findViewById(R.id.llEditTextHolder);
+        mEditTextTodo = (EditText) findViewById(R.id.etTodo);
+        mList = (ListView) findViewById(R.id.list);
+        mTitleHolder = (LinearLayout) findViewById(R.id.cardNameHolder);
+        mRevealView = (LinearLayout) findViewById(R.id.llEditTextHolder);
+        mAddButton = (FloatingActionButton) findViewById(R.id.btn_add);
+        mEditTextTodo = (EditText) findViewById(R.id.etTodo);
+        audioFAB = (FloatingActionButton) findViewById(R.id.fab1);
+        editFAB = (FloatingActionButton) findViewById(R.id.fab2);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_backward);
+
+
+        mInputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mRevealView.setVisibility(View.INVISIBLE);
+        isEditTextVisible = false;
 
         try {
             Intent i = getIntent();
@@ -63,57 +113,178 @@ public class DetailActivity extends ActionBarActivity implements View.OnClickLis
             ClapItem ci = (ClapItem) i.getParcelableExtra(ClapItem.EXTRA_CONTENT_DETAIL);
 
             Log.d(TAG, "content-item: " + ci.toString());
+            Toast.makeText(this, ci.getPictureRef(),
+                    Toast.LENGTH_SHORT).show();
 
+            (textName = (TextView) findViewById(R.id.textView)).setText(ci.getClapName());
+            (textDate = (TextView) findViewById(R.id.date_tv)).setText(ci.getClapDate());
 
-           (textName = (EditText) findViewById(R.id.textName)).setText(ci.getClapName());
-            (textDate = (TextView) findViewById(R.id.textDate)).setText(ci.getClapDate());
-            (textAudio = (TextView) findViewById(R.id.textAudioRef)).setText(ci.getAudioRef());
-            (textPicture = (TextView) findViewById(R.id.textPictureRef)).setText(ci.getPictureRef());
-
-            textName.requestFocus();
             showPic();
 
             SharedPreferences prefs = this.getSharedPreferences("MyPref", 0);
-             audio = prefs.getString("recording", null);
+            audio = prefs.getString("recording", null);
 
         } catch (Exception e) {
             Log.d(TAG, e.toString());
         }
 
-        updateButton = (Button) findViewById(R.id.update_button);
-        updateButton.setOnClickListener(v ->
+        defaultColor = getResources().getColor(R.color.colorPrimaryDark);
+        mAddButton.setOnClickListener(this);
+        audioFAB.setOnClickListener(this);
+        editFAB.setOnClickListener(this);
+    }
 
-            updateClap()
-            /*clapItem.setClapName(textName.getText().toString());
-            clapItem.setClapDate(textDate.toString());
-            clapItem.setAudioRef(textAudio.toString());
-            clapItem.setPictureRef(textPicture.toString());
-            task = new UpdateClapTask(this);
-            task.execute((Void) null);*/
+    public void animateFAB() {
 
-        );
+        if (isFabOpen) {
 
-            nb = (Button) findViewById(R.id.noise_button);
-        nb.setOnClickListener(v ->
-                playAudio());
+            mAddButton.startAnimation(rotate_backward);
+            audioFAB.startAnimation(fab_close);
+            editFAB.startAnimation(fab_close);
+            audioFAB.setClickable(false);
+            editFAB.setClickable(false);
+            isFabOpen = false;
+            Log.d("Raj", "close");
+
+        } else {
+
+            mAddButton.startAnimation(rotate_forward);
+            audioFAB.startAnimation(fab_open);
+            editFAB.startAnimation(fab_open);
+            audioFAB.setClickable(true);
+            editFAB.setClickable(true);
+            isFabOpen = true;
+            editFAB.setImageDrawable(getResources().getDrawable (R.mipmap.icn_edit));
+            editFAB.setBackgroundTintList(new ColorStateList(new int[][]{
+                    new int[]{0}}
+                    , new int[]{getResources().getColor(R.color.colorFAB2)
+            }));
+            Log.d("Raj", "open");
 
         }
+    }
+/*
+    private void setUpAdapter() {
+        mTodoList = new ArrayList<>();
+        mToDoAdapter = new ArrayAdapter(this, R.layout.row_todo, mTodoList);
+        mList.setAdapter(mToDoAdapter);
+    }*/
 
 
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.btn_add:
+                animateFAB();
+                if (isEditTextVisible = true) {
+                    hideEditText(mRevealView);
+
+                }
+
+                break;
+
+            case R.id.fab1:
+                playAudio();
+                break;
+
+            case R.id.fab2:
+
+                if (!isEditTextVisible) {
+                    revealEditText(mRevealView);
+                    mEditTextTodo.requestFocus();
+                    v.setBackgroundTintList(new ColorStateList(new int[][]
+                            {new int[]{0}}, new int[]{getResources().getColor(R.color.colorTick)}));
+                    editFAB.setImageDrawable(getResources().getDrawable(R.drawable.icn_done));
+                    mInputManager.showSoftInput(mEditTextTodo, InputMethodManager.SHOW_IMPLICIT);
+                }
+                else {
+
+                    updateClap();
+                    mInputManager.hideSoftInputFromWindow(mEditTextTodo.getWindowToken(), 0);
+                    hideEditText(mRevealView);
+                    v.setBackgroundTintList(new ColorStateList(new int[][]{
+                            new int[]{0}}
+                            , new int[]{getResources().getColor(R.color.colorFAB2)
+                    }));
+                    editFAB.setImageDrawable(getResources().getDrawable(R.mipmap.icn_edit));
+                }
+                break;
+        }
+    }
+
+
+
+
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void revealEditText(LinearLayout view) {
+        int cx = view.getRight() - 30;
+        int cy = view.getBottom() - 60;
+        int finalRadius = Math.max(view.getWidth(), view.getHeight());
+        Animator anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, 0, finalRadius);
+        view.setVisibility(View.VISIBLE);
+        isEditTextVisible = true;
+        anim.start();
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void hideEditText(final LinearLayout view) {
+        int cx = view.getRight() - 30;
+        int cy = view.getBottom() - 60;
+        int initialRadius = view.getWidth();
+        Animator anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, initialRadius, 0);
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                view.setVisibility(View.INVISIBLE);
+            }
+        });
+        isEditTextVisible = false;
+        anim.start();
+    }
     public void updateClap(){
         updatedClap = new ClapItem();
 
-        updatedClap.setClapName(textName.getText().toString());
+        textName.setText(mEditTextTodo.getText().toString());
+        updatedClap.setClapName(mEditTextTodo.getText().toString());
         updatedClap.setClapDate(textDate.toString());
-        updatedClap.setAudioRef(textAudio.toString());
-        updatedClap.setPictureRef(textPicture.toString());
+
         long result = clapDAO.update(updatedClap);
         if (result > 0) {
             finish();
-//        task = new UpdateClapTask(this);
-//        task.execute((Void) null);
+        task = new UpdateClapTask(this);
+        task.execute((Void) null);
         }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
+        alphaAnimation.setDuration(100);
+        mAddButton.startAnimation(alphaAnimation);
+        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mAddButton.setVisibility(View.GONE);
+                finishAfterTransition();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
     }
 
     @Override
@@ -123,12 +294,7 @@ public class DetailActivity extends ActionBarActivity implements View.OnClickLis
         setResult(RESULT_OK, returnIntent);
         super.finish();
     }
-    private void getParcelables(){
-        Intent i = getIntent();
-        Log.d(TAG, "intent: " + i.toString());
-        Log.d(TAG, "extras: " + i.getExtras());
-        ClapItem ci = (ClapItem) i.getParcelableExtra(ClapItem.EXTRA_CONTENT_DETAIL);
-    }
+
 
     private void showPic(){
 
@@ -152,11 +318,12 @@ public class DetailActivity extends ActionBarActivity implements View.OnClickLis
             options.inSampleSize = scale;
             options.inJustDecodeBounds = false;
             bm = BitmapFactory.decodeFile(stringUri, options);
-            picture = (ImageView) findViewById(R.id.image_iv);
+            picture = (ImageView) findViewById(R.id.cardPicture);
             picture.setImageBitmap(bm);
         }else{
             picture.setImageResource(R.drawable.clapping1);
         }
+        Log.d(TAG, "show pic");
     }
 
     public void playAudio() {
@@ -171,7 +338,7 @@ public class DetailActivity extends ActionBarActivity implements View.OnClickLis
 
 
             Toast.makeText(this, audio, Toast.LENGTH_LONG).show();
-           mp = new MediaPlayer();
+            mp = new MediaPlayer();
             mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mp.setDataSource(getApplicationContext(), myUri);
             mp.prepare();
@@ -184,7 +351,7 @@ public class DetailActivity extends ActionBarActivity implements View.OnClickLis
             e.printStackTrace();
         } catch (IllegalStateException e) {
             e.printStackTrace();
-      } catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -230,10 +397,6 @@ public class DetailActivity extends ActionBarActivity implements View.OnClickLis
         }
     }
 
-    @Override
-    public void onClick(View v) {
 
-    }
 }
-
 

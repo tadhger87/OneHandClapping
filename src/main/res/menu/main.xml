@@ -11,6 +11,13 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/action_toggle"
+        android:icon="@mipmap/ic_action_grid"
+        app:showAsAction="always"
+        android:orderInCategory="100"
+        android:title="Show as grid" />
+
+    <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"

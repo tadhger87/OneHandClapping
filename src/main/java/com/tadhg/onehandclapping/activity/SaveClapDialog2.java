@@ -1,5 +1,4 @@
 package com.tadhg.onehandclapping.activity;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -97,7 +96,7 @@ public class SaveClapDialog2  extends DialogFragment implements View.OnClickList
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-       // findViewsById(view);
+        // findViewsById(view);
         //setListeners();
 
         SharedPreferences prefs = getActivity().getSharedPreferences("MyPref", 0);
@@ -140,13 +139,13 @@ public class SaveClapDialog2  extends DialogFragment implements View.OnClickList
         });
 
 
-         dateText.setText(formattedDate);
+        dateText.setText(formattedDate);
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
 
 
-        }
+    }
     private void selectImage() {
         final CharSequence[] items = { "Take Photo", "Choose from Library", "Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -302,17 +301,13 @@ public class SaveClapDialog2  extends DialogFragment implements View.OnClickList
         cameraButton = (Button) rootView.findViewById(R.id.cameraButton);
         imageView = (ImageView) rootView.findViewById(R.id.camera_iv);
     }
-
     private void setListeners(){
         cancel.setOnClickListener(this);
         save.setOnClickListener(this);
         cameraButton.setOnClickListener(this);
     }
-
-
     @Override
     public void onClick(View v) {
-
         if(v == cancel){
             dismiss();
         } else if (v == cameraButton){
@@ -324,17 +319,13 @@ public class SaveClapDialog2  extends DialogFragment implements View.OnClickList
             mEditText.setText("");
         }
     }
-
     private void setClap() {
         SharedPreferences prefs = getActivity().getSharedPreferences("MyPref", 0);
         final String output = prefs.getString("recording", null);
-
         SharedPreferences pref = getActivity().getSharedPreferences("pref", 0);
         final String cameraPath = pref.getString("pic", null);
-
         SharedPreferences pref2 = getActivity().getSharedPreferences("pref2", 0);
         final String selectedPath = pref2.getString("selectedPic", null);
-
         clapItem = new ClapItem();
         if ("".equals(mEditText.getText().toString())) {
             Toast toast = Toast.makeText(this.getActivity(), "You have to give your clap a name!", Toast.LENGTH_SHORT);
@@ -344,7 +335,6 @@ public class SaveClapDialog2  extends DialogFragment implements View.OnClickList
             clapItem.setClapDate(formattedDate);
             clapItem.setAudioRef(output);
             clapItem.setPictureRef(cameraPath);
-
         }
     }*/
 

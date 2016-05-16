@@ -15,6 +15,7 @@ android:layout_margin="5dp" >
         android:ems="10"
         android:hint="@string/clap_etxt_hint"
         android:nextFocusDown="@+id/etxt_schedule"
+        android:inputType="textCapSentences"
         android:singleLine="true" />
 
 

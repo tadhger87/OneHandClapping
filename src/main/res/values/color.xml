@@ -8,6 +8,9 @@
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#FF5252</color>
     <color name="windowTransparent">#8b12121b</color>
+    <color name="colorFAB1">#2196F3</color>
+    <color name="colorFAB2">#E040FB</color>
+    <color name="colorTick">#40fb6c</color>
 </resources>
 
     <!--blah blah-->

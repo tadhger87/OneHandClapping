@@ -1,6 +1,5 @@
 package com.tadhg.onehandclapping.activity;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -49,7 +48,7 @@ import java.util.Calendar;
  * Created by Tadhg on 20/11/2015.
  */
 public class SaveClapDialog extends DialogFragment implements View.OnClickListener {
-// blah
+    // blah
     private EditText mEditText;
     private TextView dateText;
     private Button save, cancel, cameraButton;
@@ -93,7 +92,7 @@ public class SaveClapDialog extends DialogFragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-            clapDAO = new ClapDAO (getActivity());
+        clapDAO = new ClapDAO (getActivity());
 
         return inflater.inflate(R.layout.save_clap_dialog, container);
     }
@@ -213,7 +212,7 @@ public class SaveClapDialog extends DialogFragment implements View.OnClickListen
                 {
                     do {
                         Uri uri = Uri.parse(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)));
-                       String cameraPath = uri.toString();
+                        String cameraPath = uri.toString();
                         dateText.setText(cameraPath);
 
                         SharedPreferences.Editor editor = getActivity().getSharedPreferences("pref", 0).edit();
@@ -257,35 +256,35 @@ public class SaveClapDialog extends DialogFragment implements View.OnClickListen
         }
     }
 
-   private void setClap() {
-       SharedPreferences prefs = getActivity().getSharedPreferences("MyPref", 0);
-       final String output = prefs.getString("recording", null);
+    private void setClap() {
+        SharedPreferences prefs = getActivity().getSharedPreferences("MyPref", 0);
+        final String output = prefs.getString("recording", null);
 
-       SharedPreferences pref = getActivity().getSharedPreferences("pref", 0);
-       final String cameraPath = pref.getString("pic", null);
+        SharedPreferences pref = getActivity().getSharedPreferences("pref", 0);
+        final String cameraPath = pref.getString("pic", null);
 
-       SharedPreferences pref2 = getActivity().getSharedPreferences("pref2", 0);
-       final String selectedPath = pref2.getString("selectedPic", null);
+        SharedPreferences pref2 = getActivity().getSharedPreferences("pref2", 0);
+        final String selectedPath = pref2.getString("selectedPic", null);
 
-       clapItem = new ClapItem();
+        clapItem = new ClapItem();
 
-       if ("".equals(mEditText.getText().toString())) {
-           Toast toast = Toast.makeText(this.getActivity(), "You have to give your clap a name!", Toast.LENGTH_SHORT);
-           toast.show();
-       } else {
-           clapItem.setClapName(mEditText.getText().toString());
-           clapItem.setClapDate(formattedDate);
-           clapItem.setAudioRef(output);
-           clapItem.setPictureRef(cameraPath);
-         //  clapItem.setPictureRef(cameraPath);
+        if ("".equals(mEditText.getText().toString())) {
+            Toast toast = Toast.makeText(this.getActivity(), "You have to give your clap a name!", Toast.LENGTH_SHORT);
+            toast.show();
+        } else {
+            clapItem.setClapName(mEditText.getText().toString());
+            clapItem.setClapDate(formattedDate);
+            clapItem.setAudioRef(output);
+            clapItem.setPictureRef(cameraPath);
+            //  clapItem.setPictureRef(cameraPath);
 
         /*   if (onActivityResult(requestCode).requestCode == REQUEST_CAMERA){
                clapItem.setPictureRef(cameraPath);
            }else if (requestCode == SELECT_FILE){
                clapItem.setPictureRef(selectedPath);
            }*/
-       }
-   }
+        }
+    }
 
     private DialogInterface.OnDismissListener onDismissListener;
 

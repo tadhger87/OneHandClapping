@@ -2,6 +2,7 @@ package com.tadhg.onehandclapping.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,14 +10,19 @@ import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.tadhg.onehandclapping.R;
 import com.tadhg.onehandclapping.adapter.ClapsAdapter;
 import com.tadhg.onehandclapping.model.Clap;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -35,7 +41,7 @@ public class MessagesFragment extends Fragment  {
     Context context;
    // ClapsAdapter.ItemTouchListener itlistener;
     GestureDetectorCompat gdc;
-
+    private static final String TAG = "Fucksticks";
     MediaPlayer mp = new MediaPlayer();
 
     private static final int VERTICAL_ITEM_SPACE = 38;
@@ -66,34 +72,14 @@ public class MessagesFragment extends Fragment  {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-       /* recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                View child = recyclerView.findChildViewUnder(e.getX(),e.getY());
 
 
-
-                if(child!=null && gdc.onTouchEvent(e)) {
-                   // Drawer.closeDrawers();
-                }return false;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });*/
         clapsAdapter = new ClapsAdapter(activity, myClap);
         recyclerView.setAdapter(clapsAdapter);
 
 
         return rootView;
-    }
+    };
 
 
     @Override

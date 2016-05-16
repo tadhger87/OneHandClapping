@@ -17,7 +17,10 @@
     <dimen name="range_tick_label_font_size">15dp</dimen>
     <dimen name="domain_tick_label_font_size">15dp</dimen>
     <dimen name="legend_text_font_size">20dp</dimen>
-
+    <dimen name="card_corner_radius">2dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="floating_button_size">60dp</dimen>
+    <dimen name="button_elevation">1dp</dimen>
 
     <integer name="gallery_columns">2</integer>
     <dimen name="fab_margin">16dp</dimen>

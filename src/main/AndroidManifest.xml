@@ -29,7 +29,7 @@
             android:label="@string/title_activity_dialog"
             android:theme="@style/Theme.Transparent"></activity>
         <activity
-            android:name=".activity.DetailActivity"
+            android:name=".activity.DetailFragment"
             android:label="@string/title_activity_second_page"></activity>
         <activity
             android:name=".activity.TransitionActivity"
@@ -37,6 +37,11 @@
         <activity
             android:name=".Practice"
             android:label="@string/title_activity_practice"
+            android:theme="@style/MyMaterialTheme"></activity>
+
+        <activity
+            android:name=".activity.DetailActivity"
+            android:label="@string/title_activity_second_page"
             android:theme="@style/MyMaterialTheme"></activity>
     </application>
 
